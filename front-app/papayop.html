@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Papa Yop Assistant</title>
+</head>
+<style type="text/css">
+	body { text-align: center; }
+	.button { display: inline-block; margin: 20px; padding: 10px 20px; font-weight: bold; background-color: grey; cursor: pointer; font-family: sans-serif; }
+</style>
+<script type="text/javascript">
+	// asynchronous call to get api status
+	function arest(path) {
+        document.getElementById("log").innerHTML = "<i>loading...</i>";
+		var req = new XMLHttpRequest();
+		var url = "https://cloud.arest.io/h6n3uu" + path;
+		req.onreadystatechange = function(){
+			if (this.readyState == 4 &&  this.status == 200){
+		        var myArr = JSON.parse(this.responseText);
+		        document.getElementById("log").innerHTML = myArr.message;
+		    }
+		}
+		req.open('GET', url, true);
+		req.send();
+	}
+</script>
+<body>
+<h1>How may I help you?</h1>
+<div class="button" onclick="arest('/mode/5/o');">INITIATE</div>
+<div class="button" onclick="arest('/digital/5/1');">ON</div>
+<div class="button" onclick="arest('/digital/5/0');">OFF</div>
+<div id="log"></div>
+</body>
+</html>
