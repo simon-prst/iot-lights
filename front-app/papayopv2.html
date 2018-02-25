@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Papa Yop Assistant</title>
+</head>
+<style type="text/css">
+	body { text-align: center; font-family: "open-sans", sans-serif; }
+	.button { display: inline-block; margin: 20px; padding: 10px 20px; font-weight: bold; background-color: grey; cursor: pointer; font-family: sans-serif; }
+</style>
+<script src="paho-mqtt-min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  // Create a client instance
+  client = new Paho.MQTT.Client("m23.cloudmqtt.com", 35067,"web_" + parseInt(Math.random() * 100, 10));
+
+  // set callback handlers
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+  var options = {
+    useSSL: true,
+    userName: "sqqvsrhi",
+    password: "6mvr3arW3WJ0",
+    onSuccess:onConnect,
+    onFailure:doFail
+  }
+
+  // connect the client
+  client.connect(options);
+
+  // called when the client connects
+  function onConnect() {
+    console.log("onConnect");
+    //client.subscribe("/cloudmqtt");
+  }
+
+  function doFail(e){
+    console.log(e);
+    alert("impossible to connect to MQTT. Error" + e)
+  }
+
+  // called when the client loses its connection
+  function onConnectionLost(responseObject) {
+    if (responseObject.errorCode !== 0) {
+      console.log("onConnectionLost:"+responseObject.errorMessage);
+    }
+  }
+
+  // called when a message arrives
+  function onMessageArrived(message) {
+    console.log("onMessageArrived:"+message.payloadString);
+  }
+</script>
+<body>
+<h1>How may I help you?</h1>
+<div class="button" onclick="client.send('command', '1');">TOGGLE</div>
+</body>
+</html>
